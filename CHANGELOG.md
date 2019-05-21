@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.7.0
+## 0.8.1
 
 * Updated documentation
 * Fixed change permissions (#45)
