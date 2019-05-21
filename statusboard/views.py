@@ -36,8 +36,9 @@ from .forms import (
     MaintenanceForm,
 )
 from .settings import statusconf
+from django.contrib.auth.decorators import login_required
 
-
+@login_required
 def index(request):
     worst_status = Service.objects.worst_status()
     return render(request, "statusboard/index.html", {
@@ -124,7 +125,7 @@ class MaintenanceDelete(PermissionRequiredMixin, DeleteView):
     success_url = reverse_lazy('statusboard:index')
     permission_required = 'statusboard.delete_maintenance'
 
-
+@login_required
 @permission_required('statusboard.create_incident')
 def incident_create(request):
     form = IncidentForm()
@@ -145,7 +146,7 @@ def incident_create(request):
         "incident_updates": incident_updates,
     })
 
-
+@login_required
 @permission_required('statusboard.change_incident')
 def incident_edit(request, pk):
     incident = Incident.objects.get(pk=pk)
@@ -176,7 +177,7 @@ class IncidentDeleteView(PermissionRequiredMixin, DeleteView):
     success_url = reverse_lazy('statusboard:index')
     permission_required = 'statusboard.delete_incident'
 
-
+@login_required
 def incident_archive_index(request):
     try:
         dt = Incident.objects.latest("occurred").occurred
